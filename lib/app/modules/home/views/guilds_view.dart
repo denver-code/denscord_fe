@@ -1,3 +1,4 @@
+import 'package:denscord_fe/app/components/not_implemented.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -10,12 +11,6 @@ class GuildView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController());
-    return Scaffold(
-        body: Center(
-      child: Text(
-        'GuildView is working',
-        style: TextStyle(fontSize: 20),
-      ),
-    ));
+    return NotImplementedScreen();
   }
 }
