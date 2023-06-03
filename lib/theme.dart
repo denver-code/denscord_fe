@@ -9,3 +9,7 @@ class DenscordColors {
   static Color textHint = HexColor.fromHex("#444444");
   static Color link = HexColor.fromHex("#4BA7F5");
 }
+
+class DenscrodSizes {
+  static double borderRadius = 10.0;
+}

@@ -1,3 +1,4 @@
+import 'package:denscord_fe/theme.dart';
 import 'package:flutter/material.dart';
 
 class BigButtonWidget extends StatelessWidget {
@@ -23,7 +24,7 @@ class BigButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(DenscrodSizes.borderRadius),
           ),
         ),
         child: Text(text,

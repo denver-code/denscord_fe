@@ -84,14 +84,16 @@ class _InputFormWidgetState extends State<InputFormWidget> {
                 fontWeight: FontWeight.w400,
               ),
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(DenscrodSizes.borderRadius)),
+                  borderSide: const BorderSide(
                     color: Colors.transparent,
                   )),
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(DenscrodSizes.borderRadius)),
+                  borderSide: const BorderSide(
                     color: Colors.transparent,
                   )),
               labelStyle: TextStyle(

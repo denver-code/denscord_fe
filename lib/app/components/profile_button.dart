@@ -25,7 +25,7 @@ class ProfileButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: DenscordColors.buttonSecondary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(DenscrodSizes.borderRadius),
           ),
         ),
         child: Row(
@@ -81,7 +81,7 @@ class ProfileSquareButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: DenscordColors.buttonSecondary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(DenscrodSizes.borderRadius),
           ),
         ),
         child: Column(
