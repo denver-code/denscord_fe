@@ -6,5 +6,6 @@ class DenscordColors {
   static Color buttonPrimary = HexColor.fromHex("#8758FF");
   static Color buttonSecondary = HexColor.fromHex("#242424");
   static Color textSecondary = HexColor.fromHex("#989898");
+  static Color textHint = HexColor.fromHex("#444444");
   static Color link = HexColor.fromHex("#4BA7F5");
 }

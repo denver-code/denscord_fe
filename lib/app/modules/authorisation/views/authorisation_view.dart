@@ -35,7 +35,7 @@ class AuthorisationView extends GetView<AuthorisationController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: Get.height / 50,
+                    height: Get.height / 20,
                   ),
                   const Text("Welcome back!",
                       style: TextStyle(
@@ -56,7 +56,7 @@ class AuthorisationView extends GetView<AuthorisationController> {
                 ],
               ),
               SizedBox(
-                height: Get.height / 4.5,
+                height: Get.height / 5.5,
               ),
               Column(
                 children: [
