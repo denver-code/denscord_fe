@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthorisationController extends GetxController {
-  final registrationController = Get.find<RegistrationController>();
+  final registrationController = Get.put(RegistrationController());
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
