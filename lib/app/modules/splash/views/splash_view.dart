@@ -1,4 +1,3 @@
-import 'package:denscord_fe/app/modules/heading/views/heading_view.dart';
 import 'package:denscord_fe/app/modules/splash/views/onboard.dart';
 import 'package:denscord_fe/app/utils/authentication_manager.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +25,11 @@ class SplashView extends GetView<SplashController> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return waitingView();
         } else {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return errorView(snapshot);
-          else
-            return OnBoard();
+          } else {
+            return const OnBoard();
+          }
         }
       },
     );
@@ -40,14 +40,14 @@ class SplashView extends GetView<SplashController> {
   }
 
   Scaffold waitingView() {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: CircularProgressIndicator(),
           ),
           Text('Loading...'),

@@ -5,7 +5,7 @@ class HalfCircleBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final double radius = size.width / 2;
-    final double strokeWidth = 5.0;
+    const double strokeWidth = 5.0;
     final Paint paint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke

@@ -44,13 +44,5 @@ class HomeController extends GetxController {
     tabIndex.value = index;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

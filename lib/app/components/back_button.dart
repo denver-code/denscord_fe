@@ -10,9 +10,9 @@ class LeadingBackButton extends StatelessWidget {
       onTap: () {
         Get.back();
       },
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           Icon(
             Icons.arrow_back_ios,
             color: Colors.white,

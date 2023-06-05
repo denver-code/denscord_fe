@@ -1,4 +1,3 @@
-import 'package:denscord_fe/app/components/half_border.dart';
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/components/settings_button.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,3 @@
-import 'package:denscord_fe/config.dart';
 
 class Endpoints {
   static const String apiUrl = "http://localhost:8000/api";

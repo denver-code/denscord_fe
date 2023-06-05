@@ -10,7 +10,7 @@ import 'app/routes/app_pages.dart';
 void main() async {
   await GetStorage.init();
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.blue));
+      const SystemUiOverlayStyle(statusBarColor: Colors.blue));
   runApp(
     GetMaterialApp(
       title: "Application",

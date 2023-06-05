@@ -1,13 +1,11 @@
 import 'package:denscord_fe/app/components/back_button.dart';
 import 'package:denscord_fe/app/components/button.dart';
 import 'package:denscord_fe/app/components/input_field.dart';
-import 'package:denscord_fe/app/utils/hex2color.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../controllers/authorisation_controller.dart';
 

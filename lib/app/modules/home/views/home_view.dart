@@ -67,7 +67,7 @@ class HomeView extends GetView<HomeController> {
                   main: const Scaffold(
                       body: Center(child: Text("Home")),
                       backgroundColor: Colors.red),
-                  left: GuildView(),
+                  left: const GuildView(),
                   right: const Scaffold(body: Center(child: Text("Right"))),
                   onSideChange: (side) {
                     if (side == RevealSide.main || side == RevealSide.right) {

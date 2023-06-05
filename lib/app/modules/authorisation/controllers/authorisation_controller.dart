@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:denscord_fe/app/utils/api_endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'package:denscord_fe/app/models/login_request_model.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +23,7 @@ class AuthorisationController extends GetxController {
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body.export());
     print("${response.statusCode}");
-    print("${response.body}");
+    print(response.body);
     // return response;
   }
 
