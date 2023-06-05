@@ -196,6 +196,7 @@ class ProfileView extends GetView<HomeController> {
               ],
             ),
           ),
+          SizedBox(height: Get.height / 8.2),
         ],
       ),
     ));

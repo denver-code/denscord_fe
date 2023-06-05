@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: A tiny discord clone written in FastAPI and Flutter.
 environment: 
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: '^3.0.0'
 
 dependencies: 
   cupertino_icons: ^1.0.2
@@ -11,7 +11,11 @@ dependencies:
   flutter: 
     sdk: flutter
   animated_bottom_navigation_bar: ^1.2.0
-
+  overlapping_panels: ^0.0.3
+  get_storage: ^2.1.1
+  path_provider: ^2.0.15
+  http: ^1.0.0
+  
 dev_dependencies: 
   flutter_lints: ^2.0.0
   flutter_test: 
