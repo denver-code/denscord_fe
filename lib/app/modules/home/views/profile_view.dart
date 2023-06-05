@@ -192,6 +192,11 @@ class ProfileView extends GetView<HomeController> {
                     text2: "About Denscord",
                     icon: Icons.info_outline_rounded,
                     onTap: () {}),
+                SettingsButton(
+                    text1: "Log out",
+                    text2: "See you later!",
+                    icon: Icons.logout_rounded,
+                    onTap: controller.logout),
               ],
             ),
           ),

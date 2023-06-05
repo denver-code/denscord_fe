@@ -1,7 +1,6 @@
-
 class Endpoints {
-  static const String apiUrl = "http://localhost:8000/api";
+  static const String apiUrl = "192.168.1.2:8180";
 
-  static const String signup = "$apiUrl/public/authorisation/signup";
-  static const String login = "$apiUrl/public/authorisation/login";
+  static Uri signup = Uri.http(apiUrl, '/api/public/authorisation/signup');
+  static Uri login = Uri.http(apiUrl, '/api/public/authorisation/signin');
 }

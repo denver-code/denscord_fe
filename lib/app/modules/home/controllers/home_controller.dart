@@ -1,9 +1,17 @@
 import 'package:denscord_fe/app/components/profile_button.dart';
+import 'package:denscord_fe/app/utils/authentication_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   var tabIndex = 0.obs;
+  late final AuthenticationManager _authManager;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _authManager = Get.find();
+  }
 
   Map user = {
     "id": "sdiuhfhsfisudfoise",
@@ -12,6 +20,11 @@ class HomeController extends GetxController {
     "email": "csigorek@gmail.com",
     "is_nitro": true,
   };
+
+  void logout() {
+    _authManager.logOut();
+    Get.offAllNamed("/heading");
+  }
 
   List<Widget> accountSettingsButtons = [
     ProfileButton(
@@ -43,6 +56,4 @@ class HomeController extends GetxController {
   void changeTabIndex(int index) {
     tabIndex.value = index;
   }
-
-
 }
