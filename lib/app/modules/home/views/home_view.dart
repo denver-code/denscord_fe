@@ -69,6 +69,7 @@ class HomeView extends GetView<HomeController> {
                       backgroundColor: Colors.red),
                   left: const GuildView(),
                   right: const Scaffold(body: Center(child: Text("Right"))),
+                  restWidth: 50,
                   onSideChange: (side) {
                     if (side == RevealSide.main || side == RevealSide.right) {
                       isFooter.value = false;

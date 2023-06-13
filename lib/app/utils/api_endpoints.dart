@@ -3,4 +3,8 @@ class Endpoints {
 
   static Uri signup = Uri.http(apiUrl, '/api/public/authorisation/signup');
   static Uri login = Uri.http(apiUrl, '/api/public/authorisation/signin');
+
+  static Uri getGuilds = Uri.http(apiUrl, '/api/private/guild/');
+  static Uri getChannels(String guildId) =>
+      Uri.http(apiUrl, '/api/private/guild/$guildId/channel/');
 }

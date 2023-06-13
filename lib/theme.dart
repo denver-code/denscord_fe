@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class DenscordColors {
   static Color scaffoldBackground = HexColor.fromHex("#0D0D0D");
+  static Color scaffoldForeground = HexColor.fromHex("#1E1E1E");
   static Color buttonPrimary = HexColor.fromHex("#8758FF");
   static Color buttonSecondary = HexColor.fromHex("#242424");
   static Color textSecondary = HexColor.fromHex("#989898");

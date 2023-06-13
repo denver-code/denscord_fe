@@ -14,7 +14,8 @@ dependencies:
   overlapping_panels: ^0.0.3
   get_storage: ^2.1.1
   path_provider: ^2.0.15
-  http: ^1.0.0
+  http: ^0.13.0
+  cached_network_image: ^3.2.3
   
 dev_dependencies: 
   flutter_lints: ^2.0.0
