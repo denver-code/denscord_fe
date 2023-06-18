@@ -77,9 +77,13 @@ class GuildView extends GetView<HomeController> {
                                   index.toString()),
                               title: Text(
                                 "#${homeController.channels[index].name ?? ""}",
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                homeController.setActiveChannel(homeController
+                                    .channels[index].id
+                                    .toString());
+                              },
                             );
                           })
                       : const Text("No channels"),

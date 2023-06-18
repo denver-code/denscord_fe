@@ -7,4 +7,10 @@ class Endpoints {
   static Uri getGuilds = Uri.http(apiUrl, '/api/private/guild/');
   static Uri getChannels(String guildId) =>
       Uri.http(apiUrl, '/api/private/guild/$guildId/channel/');
+  static Uri getMembers(String guildId) =>
+      Uri.http(apiUrl, '/api/private/guild/$guildId/members/');
+  static Uri getMember(String memberId) =>
+      Uri.http(apiUrl, '/api/public/profile/$memberId/');
+  static Uri getMessages(String guildId, String channelId) => Uri.http(
+      apiUrl, '/api/private/guild/$guildId/channel/$channelId/message/');
 }

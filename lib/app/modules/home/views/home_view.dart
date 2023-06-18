@@ -1,4 +1,6 @@
 import 'package:denscord_fe/app/modules/home/views/guilds_view.dart';
+import 'package:denscord_fe/app/modules/home/views/members_right_view.dart';
+import 'package:denscord_fe/app/modules/home/views/messager_view.dart';
 import 'package:denscord_fe/app/modules/home/views/profile_view.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:flutter/material.dart';
@@ -64,11 +66,9 @@ class HomeView extends GetView<HomeController> {
               children: [
                 // GuildView(),
                 OverlappingPanels(
-                  main: const Scaffold(
-                      body: Center(child: Text("Home")),
-                      backgroundColor: Colors.red),
+                  main: const MessagerView(),
                   left: const GuildView(),
-                  right: const Scaffold(body: Center(child: Text("Right"))),
+                  right: const MembersView(),
                   restWidth: 50,
                   onSideChange: (side) {
                     if (side == RevealSide.main || side == RevealSide.right) {

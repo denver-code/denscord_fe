@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/guild_response_model.dart';
+import 'package:denscord_fe/app/models/member_model.dart';
+import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
 import 'package:denscord_fe/app/utils/authentication_manager.dart';
 import 'package:denscord_fe/app/utils/cache_manager.dart';
@@ -15,6 +17,8 @@ class HomeController extends GetxController with CacheManager {
   final AuthenticationManager _authManager = Get.put(AuthenticationManager());
   RxList<GuildModel> guilds = <GuildModel>[].obs;
   RxList<ChannelModel> channels = <ChannelModel>[].obs;
+  RxList<MemberModel> members = <MemberModel>[].obs;
+  RxList<MessageModel> messages = <MessageModel>[].obs;
 
   late String token;
 
@@ -28,6 +32,51 @@ class HomeController extends GetxController with CacheManager {
     activeGuild.value = guilds.firstWhere((guild) => guild.id == guildId);
     activeGuild.refresh();
     fetchChannels();
+    fetchMembers();
+  }
+
+  void fetchMessages() async {
+    var request = await http.get(
+      Endpoints.getMessages(
+          activeGuild.value.id.toString(), activeChannel.value.id.toString()),
+      headers: {"Authorisation": token},
+    );
+    if (request.statusCode == 200) {
+      messages.clear();
+      // List<MessageModel> _messages = <MessageModel>[];
+
+      for (var message in json.decode(request.body)) {
+        messages.add(MessageModel.fromJson(message));
+      }
+    }
+  }
+
+  void fetchMembers() async {
+    var r1 = await http.get(
+      Endpoints.getMembers(activeGuild.value.id.toString()),
+      headers: {"Authorisation": token},
+    );
+    List<String> membersIdList = [];
+    if (r1.statusCode == 200) {
+      for (var member in json.decode(r1.body)) {
+        membersIdList.add(member);
+      }
+    } else {
+      return;
+    }
+    // ignore: no_leading_underscores_for_local_identifiers
+    List<MemberModel> _members = <MemberModel>[];
+    for (var memberId in membersIdList) {
+      var r2 = await http.get(
+        Endpoints.getMember(memberId.toString()),
+        headers: {"Authorisation": token},
+      );
+      if (r2.statusCode == 200) {
+        _members.add(MemberModel.fromJson(json.decode(r2.body)));
+      }
+    }
+    members.clear();
+    members.addAll(_members);
   }
 
   void setActiveChannel(String channelId) {
@@ -37,9 +86,10 @@ class HomeController extends GetxController with CacheManager {
     activeChannel.value =
         channels.firstWhere((channel) => channel.id == channelId);
     activeChannel.refresh();
+    fetchMessages();
   }
 
-  fetchChannels() async {
+  Future fetchChannels() async {
     var response = await http.get(
       Endpoints.getChannels(activeGuild.value.id.toString()),
       headers: {"Authorisation": token},
@@ -54,17 +104,17 @@ class HomeController extends GetxController with CacheManager {
     return null;
   }
 
-  void fetchGuilds() async {
+  Future fetchGuilds() async {
     var response = await http.get(
       Endpoints.getGuilds,
       headers: {"Authorisation": token},
     );
+    guilds.clear();
     if (response.statusCode == 200) {
-      // print(json.decode(response.body));
-      // List<GuildModel> guildsList = [];
       for (var guild in json.decode(response.body)) {
         guilds.add(GuildModel.fromJson(guild));
       }
+
       return;
     }
     return null;
@@ -74,11 +124,28 @@ class HomeController extends GetxController with CacheManager {
   void onInit() {
     super.onInit();
     token = getToken()!;
+    // ignore: unnecessary_null_comparison
     if (token == null) {
       return logout();
     }
 
-    fetchGuilds();
+    fetchGuilds().then(
+      (value) {
+        if (guilds.isNotEmpty) {
+          setActiveGuild(guilds[0].id.toString());
+        }
+
+        fetchChannels().then((value) {
+          if (channels.isNotEmpty) {
+            setActiveChannel(channels[0].id.toString());
+          }
+        });
+      },
+    );
+  }
+
+  setPanelToLeft() {
+    // OverlappingPanels.of(Get.context)?.reveal(RevealSide.left);
   }
 
   Map user = {
