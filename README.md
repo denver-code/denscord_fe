@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+## Current Demo
+![](github/rec.gif)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
