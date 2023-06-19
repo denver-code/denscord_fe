@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/theme.dart';
+import 'package:flutter/gestures.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:flutter/material.dart';
@@ -83,6 +84,9 @@ class MessagerView extends GetView<HomeController> {
           () => Expanded(
             child: homeController.messages.isNotEmpty
                 ? ListView.builder(
+                    shrinkWrap: true,
+                    controller: homeController.messagerListController,
+                    reverse: true,
                     keyboardDismissBehavior:
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     padding: EdgeInsets.zero,
@@ -176,46 +180,52 @@ class MessagerView extends GetView<HomeController> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15.0, vertical: 5),
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
+                    child: Obx(
+                      () => TextField(
+                        controller: homeController.messageController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(DenscrodSizes.borderRadius)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(DenscrodSizes.borderRadius)),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            fillColor: DenscordColors.scaffoldForeground,
+                            // const Color.fromARGB(255, 50, 50, 50)
+                            filled: true,
+                            hintText:
+                                "Message #${controller.activeChannel.value.name}",
+                            hintStyle: TextStyle(
+                                color: Colors.grey[500], fontSize: 14)),
                       ),
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(DenscrodSizes.borderRadius)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(DenscrodSizes.borderRadius)),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          fillColor: DenscordColors.scaffoldForeground,
-                          // const Color.fromARGB(255, 50, 50, 50)
-                          filled: true,
-                          hintText:
-                              "Message #${controller.activeChannel.value.name}",
-                          hintStyle:
-                              TextStyle(color: Colors.grey[500], fontSize: 14)),
                     ),
                   ),
                 ),
-                const Icon(
-                  Icons.send_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
+                GestureDetector(
+                  onTap: homeController.sendMessage,
+                  child: const Icon(
+                    Icons.send_rounded,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                )
               ],
             ),
           ),
-        )
+        ),
       ]),
     );
   }

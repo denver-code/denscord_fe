@@ -11,8 +11,13 @@ import 'package:denscord_fe/app/utils/cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class HomeController extends GetxController with CacheManager {
+  // late final WebSocketChannel? channel;
+  var channel;
+
   var tabIndex = 0.obs;
   final AuthenticationManager _authManager = Get.put(AuthenticationManager());
   RxList<GuildModel> guilds = <GuildModel>[].obs;
@@ -20,10 +25,36 @@ class HomeController extends GetxController with CacheManager {
   RxList<MemberModel> members = <MemberModel>[].obs;
   RxList<MessageModel> messages = <MessageModel>[].obs;
 
+  TextEditingController messageController = TextEditingController();
+  ScrollController messagerListController = ScrollController();
+
   late String token;
 
   Rx<GuildModel> activeGuild = GuildModel().obs;
   Rx<ChannelModel> activeChannel = ChannelModel().obs;
+
+  void sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      // channel = IOWebSocketChannel.connect(
+      //     Uri.parse(
+      //         'ws://${Endpoints.apiUrl}/ws/${activeGuild.value.id}/${activeChannel.value.id}'),
+      //     headers: {"Authorisation": token});
+      if (channel == null) {
+        return;
+      }
+      channel!.sink.add(json.encode({"message": messageController.text}));
+      // messages.clear();
+      // fetchMessages().then((value) {
+      //   messages.refresh();
+      // });
+      messageController.clear();
+      messagerListController.animateTo(
+        messagerListController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
 
   void setActiveGuild(String guildId) {
     if (activeGuild.value.id == guildId) {
@@ -35,7 +66,7 @@ class HomeController extends GetxController with CacheManager {
     fetchMembers();
   }
 
-  void fetchMessages() async {
+  Future fetchMessages() async {
     var request = await http.get(
       Endpoints.getMessages(
           activeGuild.value.id.toString(), activeChannel.value.id.toString()),
@@ -43,11 +74,12 @@ class HomeController extends GetxController with CacheManager {
     );
     if (request.statusCode == 200) {
       messages.clear();
-      // List<MessageModel> _messages = <MessageModel>[];
-
       for (var message in json.decode(request.body)) {
         messages.add(MessageModel.fromJson(message));
       }
+      messages.sort((a, b) => a.createdAt!.compareTo(b.createdAt.toString()));
+
+      messages = messages.reversed.toList().obs;
     }
   }
 
@@ -87,6 +119,20 @@ class HomeController extends GetxController with CacheManager {
         channels.firstWhere((channel) => channel.id == channelId);
     activeChannel.refresh();
     fetchMessages();
+    channel = IOWebSocketChannel.connect(
+        Uri.parse(
+            'ws://${Endpoints.apiUrl}/ws/${activeGuild.value.id}/${activeChannel.value.id}'),
+        headers: {"Authorisation": token});
+    channel.stream.listen((event) {
+      var newMessage = json.decode(event);
+      newMessage['created_at'] = newMessage['created_at']['\$date'];
+      messages.insert(0, MessageModel.fromJson(newMessage));
+      messagerListController.animateTo(
+        messagerListController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   Future fetchChannels() async {
@@ -144,8 +190,10 @@ class HomeController extends GetxController with CacheManager {
     );
   }
 
-  setPanelToLeft() {
-    // OverlappingPanels.of(Get.context)?.reveal(RevealSide.left);
+  @override
+  void dispose() {
+    // channel!.sink.close();
+    super.dispose();
   }
 
   Map user = {
