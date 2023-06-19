@@ -48,15 +48,20 @@ class HomeController extends GetxController with CacheManager {
       //   messages.refresh();
       // });
       messageController.clear();
-      messagerListController.animateTo(
-        messagerListController.position.minScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+      if (messages.length > 9) {
+        messagerListController.animateTo(
+          messagerListController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      }
     }
   }
 
   void setActiveGuild(String guildId) {
+    if (channel != null) {
+      channel!.sink.close();
+    }
     if (activeGuild.value.id == guildId) {
       return;
     }
@@ -112,6 +117,9 @@ class HomeController extends GetxController with CacheManager {
   }
 
   void setActiveChannel(String channelId) {
+    if (channel != null) {
+      channel!.sink.close();
+    }
     if (activeChannel.value.id == channelId) {
       return;
     }
@@ -127,11 +135,13 @@ class HomeController extends GetxController with CacheManager {
       var newMessage = json.decode(event);
       newMessage['created_at'] = newMessage['created_at']['\$date'];
       messages.insert(0, MessageModel.fromJson(newMessage));
-      messagerListController.animateTo(
-        messagerListController.position.minScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+      if (messages.length > 9) {
+        messagerListController.animateTo(
+          messagerListController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 
@@ -192,7 +202,9 @@ class HomeController extends GetxController with CacheManager {
 
   @override
   void dispose() {
-    // channel!.sink.close();
+    if (channel != null) {
+      channel!.sink.close();
+    }
     super.dispose();
   }
 
