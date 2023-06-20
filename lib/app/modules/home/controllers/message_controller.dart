@@ -1,3 +1,23 @@
+import 'dart:convert';
+
+import 'package:denscord_fe/app/models/message_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
 mixin MessageController {
-  // Implement mixin logic here...
+  var channel;
+  TextEditingController messageController = TextEditingController();
+  RxList<MessageModel> messages = <MessageModel>[].obs;
+  ScrollController messagerListController = ScrollController();
+
+  void sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      if (channel == null) {
+        return;
+      }
+      channel!.sink.add(json.encode({"message": messageController.text}));
+      messageController.clear();
+    }
+  }
 }
