@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/app/modules/home/views/guilds_view.dart';
 import 'package:denscord_fe/app/modules/home/views/members_right_view.dart';
 import 'package:denscord_fe/app/modules/home/views/messager_view.dart';
@@ -42,10 +43,26 @@ class HomeView extends GetView<HomeController> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: Image.asset(landingPageController.user["avatar"],
-                    width: 30.0)),
+            icon: Obx(
+              () => CachedNetworkImage(
+                imageUrl: landingPageController.me.value.avatar ??
+                    "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 35.0,
+                  height: 35.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      // fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
             label: 'Profile',
           ),
         ],

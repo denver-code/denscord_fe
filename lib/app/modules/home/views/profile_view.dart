@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/components/settings_button.dart';
 import 'package:flutter/material.dart';
@@ -47,10 +48,28 @@ class ProfileView extends GetView<HomeController> {
               Positioned(
                 top: Get.height / 5.90,
                 left: Get.width / 22,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(80.0),
-                  child: Image.asset(homeController.user["avatar"],
-                      width: 70.0, height: 70.0),
+                child: Obx(
+                  () => CachedNetworkImage(
+                    imageUrl: homeController.me.value.avatar ??
+                        "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 70.0,
+                      height: 70.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          // fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
               )
             ],
@@ -66,17 +85,21 @@ class ProfileView extends GetView<HomeController> {
                   children: [
                     Row(
                       children: [
-                        Text("@${homeController.user["username"]}",
-                            style: const TextStyle(
-                              // color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18.0,
-                            )),
+                        Obx(
+                          () => Text("@${homeController.me.value.username}",
+                              style: const TextStyle(
+                                // color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18.0,
+                              )),
+                        ),
                         const SizedBox(width: 10.0),
-                        homeController.user["is_nitro"]
-                            ? Image.asset("assets/images/nitro.png",
-                                width: 20.0, height: 20.0)
-                            : const SizedBox(),
+                        Obx(
+                          () => homeController.me.value.isNitro
+                              ? Image.asset("assets/images/nitro.png",
+                                  width: 20.0, height: 20.0)
+                              : const SizedBox(),
+                        )
                       ],
                     ),
                     Icon(Icons.arrow_forward_ios_rounded,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
+import 'package:denscord_fe/app/models/user_model.dart';
 import 'package:denscord_fe/app/modules/home/controllers/message_controller.dart';
 import 'package:denscord_fe/app/modules/home/controllers/state_controller.dart';
 import 'package:denscord_fe/app/utils/api.dart';
@@ -54,13 +55,6 @@ class HomeController extends GetxController
     );
 
     members.clear();
-
-    // for (var memberId in membersIdList) {
-    //   var member = await _apiService.getMember(memberId: memberId);
-    //   if (member != null) {
-    //     members.add(member);
-    //   }
-    // }
 
     var membersList = await _apiService.getBulkMembers(
       membersId: membersIdList,
@@ -127,10 +121,16 @@ class HomeController extends GetxController
     });
   }
 
+  Rx<UserModel> me = UserModel().obs;
+
   @override
   void onInit() async {
     super.onInit();
     token = _apiService.getToken()!;
+    await _apiService.getMyProfile().then((value) {
+      me.value = value;
+      me.refresh();
+    });
     fetchGuilds();
     fetchChannels();
   }

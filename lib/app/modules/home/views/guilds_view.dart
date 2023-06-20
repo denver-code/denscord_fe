@@ -26,7 +26,7 @@ class GuildView extends GetView<HomeController> {
                   key: Key(homeController.guilds[index].id ?? index.toString()),
                   title: CachedNetworkImage(
                     imageUrl: homeController.guilds[index].avatar ??
-                        "https://cdn.discordapp.com/embed/avatars/0.png",
+                        "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
                     imageBuilder: (context, imageProvider) => Container(
                       width: 80.0,
                       height: 80.0,
