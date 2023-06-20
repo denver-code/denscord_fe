@@ -1,0 +1,3 @@
+mixin MessageController {
+  // Implement mixin logic here...
+}

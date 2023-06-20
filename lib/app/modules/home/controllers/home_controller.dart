@@ -5,6 +5,7 @@ import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/guild_response_model.dart';
 import 'package:denscord_fe/app/models/member_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
+import 'package:denscord_fe/app/modules/home/controllers/message_controller.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
 import 'package:denscord_fe/app/utils/authentication_manager.dart';
 import 'package:denscord_fe/app/utils/cache_manager.dart';
@@ -13,7 +14,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
-class HomeController extends GetxController with CacheManager {
+class HomeController extends GetxController
+    with CacheManager, MessageController {
   var channel;
 
   var tabIndex = 0.obs;
@@ -38,13 +40,6 @@ class HomeController extends GetxController with CacheManager {
       }
       channel!.sink.add(json.encode({"message": messageController.text}));
       messageController.clear();
-      if (messages.length > 9) {
-        // messagerListController.animateTo(
-        //   messagerListController.position.maxScrollExtent,
-        //   duration: const Duration(milliseconds: 500),
-        //   curve: Curves.easeOut,
-        // );
-      }
     }
   }
 
