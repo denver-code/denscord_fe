@@ -24,25 +24,33 @@ class GuildView extends GetView<HomeController> {
               itemBuilder: (context, index) {
                 return ListTile(
                   key: Key(homeController.guilds[index].id ?? index.toString()),
-                  title: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2.5, color: Colors.white),
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.fill,
-                        imageUrl: homeController.guilds[index].avatar ??
-                            "https://cdn.discordapp.com/embed/avatars/0.png",
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                  title: CachedNetworkImage(
+                    imageUrl: homeController.guilds[index].avatar ??
+                        "https://cdn.discordapp.com/embed/avatars/0.png",
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: homeController.activeGuild.value.id ==
+                                  homeController.guilds[index].id
+                              ? Colors.white
+                              : Colors.transparent,
+                          width: 2.0,
+                        ),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          // fit: BoxFit.cover,
+                        ),
                       ),
                     ),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   onTap: () {
                     homeController.setActiveGuild(
@@ -77,7 +85,12 @@ class GuildView extends GetView<HomeController> {
                                   index.toString()),
                               title: Text(
                                 "#${homeController.channels[index].name ?? ""}",
-                                style: const TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: homeController
+                                                .activeChannel.value.id ==
+                                            homeController.channels[index].id
+                                        ? Colors.white
+                                        : Colors.white54),
                               ),
                               onTap: () {
                                 homeController.setActiveChannel(homeController

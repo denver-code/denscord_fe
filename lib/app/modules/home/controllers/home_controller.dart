@@ -35,18 +35,10 @@ class HomeController extends GetxController with CacheManager {
 
   void sendMessage() {
     if (messageController.text.isNotEmpty) {
-      // channel = IOWebSocketChannel.connect(
-      //     Uri.parse(
-      //         'ws://${Endpoints.apiUrl}/ws/${activeGuild.value.id}/${activeChannel.value.id}'),
-      //     headers: {"Authorisation": token});
       if (channel == null) {
         return;
       }
       channel!.sink.add(json.encode({"message": messageController.text}));
-      // messages.clear();
-      // fetchMessages().then((value) {
-      //   messages.refresh();
-      // });
       messageController.clear();
       if (messages.length > 9) {
         messagerListController.animateTo(
@@ -126,6 +118,7 @@ class HomeController extends GetxController with CacheManager {
     activeChannel.value =
         channels.firstWhere((channel) => channel.id == channelId);
     activeChannel.refresh();
+    channels.refresh();
     fetchMessages();
     channel = IOWebSocketChannel.connect(
         Uri.parse(
