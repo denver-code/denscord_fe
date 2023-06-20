@@ -12,10 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class HomeController extends GetxController with CacheManager {
-  // late final WebSocketChannel? channel;
   var channel;
 
   var tabIndex = 0.obs;
@@ -41,11 +39,11 @@ class HomeController extends GetxController with CacheManager {
       channel!.sink.add(json.encode({"message": messageController.text}));
       messageController.clear();
       if (messages.length > 9) {
-        messagerListController.animateTo(
-          messagerListController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOut,
-        );
+        // messagerListController.animateTo(
+        //   messagerListController.position.maxScrollExtent,
+        //   duration: const Duration(milliseconds: 500),
+        //   curve: Curves.easeOut,
+        // );
       }
     }
   }
@@ -129,11 +127,11 @@ class HomeController extends GetxController with CacheManager {
       newMessage['created_at'] = newMessage['created_at']['\$date'];
       messages.insert(0, MessageModel.fromJson(newMessage));
       if (messages.length > 9) {
-        messagerListController.animateTo(
-          messagerListController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOut,
-        );
+        // messagerListController.animateTo(
+        //   messagerListController.position.minScrollExtent,
+        //   duration: const Duration(milliseconds: 500),
+        //   curve: Curves.easeOut,
+        // );
       }
     });
   }
