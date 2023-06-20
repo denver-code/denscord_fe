@@ -55,12 +55,18 @@ class HomeController extends GetxController
 
     members.clear();
 
-    for (var memberId in membersIdList) {
-      var member = await _apiService.getMember(memberId: memberId);
-      if (member != null) {
-        members.add(member);
-      }
-    }
+    // for (var memberId in membersIdList) {
+    //   var member = await _apiService.getMember(memberId: memberId);
+    //   if (member != null) {
+    //     members.add(member);
+    //   }
+    // }
+
+    var membersList = await _apiService.getBulkMembers(
+      membersId: membersIdList,
+    );
+
+    members.addAll(membersList);
     members.refresh();
   }
 

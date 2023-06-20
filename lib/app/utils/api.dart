@@ -60,6 +60,27 @@ class APIService extends Endpoints with CacheManager {
     }
   }
 
+  Future<List<MemberModel>> getBulkMembers({
+    required List<String> membersId,
+  }) async {
+    List<MemberModel> members = <MemberModel>[];
+    var request = await http.post(
+      Endpoints.getBulkMembersRoute,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({"users": membersId}),
+    );
+    if (request.statusCode == 200) {
+      for (var member in json.decode(request.body)) {
+        members.add(MemberModel.fromJson(member));
+      }
+      return members;
+    } else {
+      return [];
+    }
+  }
+
   Future<List<ChannelModel>> getChannels({
     required String guildId,
   }) async {
