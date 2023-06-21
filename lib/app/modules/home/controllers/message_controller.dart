@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 mixin MessageController {
   var channel;
