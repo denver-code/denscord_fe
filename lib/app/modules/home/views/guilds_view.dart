@@ -297,7 +297,16 @@ class GuildView extends GetView<HomeController> {
                           ),
                         ),
                         PopupMenuItem(
-                          enabled: false,
+                          onTap: () {
+                            if (homeController.activeGuild.value.owner ==
+                                homeController.me.value.id) {
+                              Get.snackbar("Permissions denied!",
+                                  "You can't leave this guild as you are owner!",
+                                  colorText: Colors.white,
+                                  snackPosition: SnackPosition.BOTTOM);
+                              return;
+                            }
+                          },
                           child: Text(
                             "Leave",
                             style: TextStyle(color: Colors.red[400]),
