@@ -182,6 +182,7 @@ class MessagerView extends GetView<HomeController> {
                         horizontal: 15.0, vertical: 5),
                     child: Obx(
                       () => TextField(
+                        enabled: homeController.activeChannel.value.id != null,
                         controller: homeController.messageController,
                         cursorColor: Colors.white,
                         style: const TextStyle(
