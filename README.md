@@ -2,8 +2,8 @@
 
 A new Flutter project.
 
-## Current Demo
-![](github/rec.gif)
+<!-- ## Current Demo
+![](github/rec.gif) -->
 
 ## Getting Started
 
