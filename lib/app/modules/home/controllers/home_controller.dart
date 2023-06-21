@@ -39,6 +39,24 @@ class HomeController extends GetxController with StateController {
     });
   }
 
+  leaveGuild() async {
+    apiService
+        .leaveGuild(guildId: activeGuild.value.id.toString())
+        .then((value) {
+      switch (value) {
+        case true:
+          Get.snackbar("Success", "You left the guild,",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          fetchGuilds();
+          fetchChannels();
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+      }
+    });
+  }
+
   sendMessage() {
     if (messageController.text.isNotEmpty) {
       if (channel == null) {

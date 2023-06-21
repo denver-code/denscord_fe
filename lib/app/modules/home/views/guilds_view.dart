@@ -280,6 +280,8 @@ class GuildView extends GetView<HomeController> {
                                               snackPosition:
                                                   SnackPosition.BOTTOM);
                                           return;
+                                        } else {
+                                          homeController.leaveGuild();
                                         }
                                       }
                                       homeController.createChannel();
@@ -306,6 +308,7 @@ class GuildView extends GetView<HomeController> {
                                   snackPosition: SnackPosition.BOTTOM);
                               return;
                             }
+                            homeController.leaveGuild();
                           },
                           child: Text(
                             "Leave",
