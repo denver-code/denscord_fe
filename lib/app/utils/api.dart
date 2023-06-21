@@ -127,4 +127,27 @@ class APIService extends Endpoints with CacheManager {
       return UserModel();
     }
   }
+
+  Future<bool> createNewChannel({
+    required String guildId,
+    required String name,
+    required String description,
+  }) async {
+    var request = await http.post(
+      Endpoints.createChannelRoute(guildId),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+      body: json.encode({
+        "name": name,
+        "description": description,
+      }),
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

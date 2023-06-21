@@ -66,10 +66,13 @@ class MessagerView extends GetView<HomeController> {
                 ),
                 Row(
                   children: [
-                    const Icon(
-                      Icons.search_outlined,
-                      color: Colors.white,
-                      size: 25,
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.search_outlined,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                     ),
                     const SizedBox(
                       width: 20,

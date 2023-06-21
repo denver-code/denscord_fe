@@ -3,26 +3,53 @@ import 'dart:convert';
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
-import 'package:denscord_fe/app/models/user_model.dart';
-import 'package:denscord_fe/app/modules/home/controllers/message_controller.dart';
 import 'package:denscord_fe/app/modules/home/controllers/state_controller.dart';
-import 'package:denscord_fe/app/utils/api.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
-import 'package:denscord_fe/app/utils/authentication_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
-class HomeController extends GetxController
-    with MessageController, StateController {
-  var tabIndex = 0.obs;
-  final APIService _apiService = APIService();
-  final AuthenticationManager _authManager = Get.put(AuthenticationManager());
-  late String token;
-  Rx<UserModel> me = UserModel().obs;
+class HomeController extends GetxController with StateController {
+  createChannel() async {
+    String description = channelDescriptionController.text.isEmpty
+        ? "No description"
+        : channelDescriptionController.text;
+    apiService
+        .createNewChannel(
+            guildId: activeGuild.value.id.toString(),
+            name: channelNameController.text,
+            description: description)
+        .then((value) {
+      channelDescriptionController.clear();
+      channelNameController.clear();
+      switch (value) {
+        case true:
+          Get.back();
+          fetchChannels().then((value) {
+            Get.snackbar("Success", "Channel created",
+                colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          });
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+    });
+  }
+
+  sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      if (channel == null) {
+        return;
+      }
+      channel!.sink.add(json.encode({"message": messageController.text}));
+      messageController.clear();
+    }
+  }
 
   fetchMessages() async {
-    _apiService
+    apiService
         .getMessages(
       guildId: activeGuild.value.id.toString(),
       channelId: activeChannel.value.id.toString(),
@@ -37,13 +64,13 @@ class HomeController extends GetxController
   }
 
   fetchMembers() async {
-    var membersIdList = await _apiService.getMembersId(
+    var membersIdList = await apiService.getMembersId(
       guildId: activeGuild.value.id.toString(),
     );
 
     members.clear();
 
-    var membersList = await _apiService.getBulkMembers(
+    var membersList = await apiService.getBulkMembers(
       membersId: membersIdList,
     );
 
@@ -53,7 +80,7 @@ class HomeController extends GetxController
 
   Future fetchChannels() async {
     channels.clear();
-    _apiService
+    apiService
         .getChannels(
       guildId: activeGuild.value.id.toString(),
     )
@@ -70,7 +97,7 @@ class HomeController extends GetxController
 
   Future fetchGuilds() async {
     guilds.clear();
-    _apiService.getGuilds().then((value) {
+    apiService.getGuilds().then((value) {
       if (value.isEmpty) {
         return;
       }
@@ -135,8 +162,8 @@ class HomeController extends GetxController
   @override
   void onInit() async {
     super.onInit();
-    token = _apiService.getToken()!;
-    await _apiService.getMyProfile().then((value) {
+    token = apiService.getToken()!;
+    await apiService.getMyProfile().then((value) {
       me.value = value;
       me.refresh();
     });
@@ -152,16 +179,8 @@ class HomeController extends GetxController
     super.dispose();
   }
 
-  // Map user = {
-  //   "id": "sdiuhfhsfisudfoise",
-  //   "username": "denver-code",
-  //   "avatar": "assets/images/avatar.png",
-  //   "email": "csigorek@gmail.com",
-  //   "is_nitro": true,
-  // };
-
   void logout() {
-    _authManager.logOut();
+    authManager.logOut();
     Get.offAllNamed("/heading");
   }
 
