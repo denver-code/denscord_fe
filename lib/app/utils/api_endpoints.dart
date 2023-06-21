@@ -17,4 +17,6 @@ class Endpoints {
   static Uri getMyProfileRoute = Uri.http(apiUrl, '/api/private/profile/');
   static Uri createChannelRoute(String guildId) =>
       Uri.http(apiUrl, '/api/private/guild/$guildId/channel/');
+  static Uri leaveGuildRoute(String guildId) =>
+      Uri.http(apiUrl, '/api/private/guild/$guildId/leave');
 }

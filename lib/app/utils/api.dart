@@ -150,4 +150,18 @@ class APIService extends Endpoints with CacheManager {
       return false;
     }
   }
+
+  Future<bool> leaveGuild({
+    required String guildId,
+  }) async {
+    var request = await http.get(
+      Endpoints.leaveGuildRoute(guildId),
+      headers: {"Authorisation": getToken().toString()},
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
