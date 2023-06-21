@@ -152,13 +152,13 @@ class HomeController extends GetxController
     super.dispose();
   }
 
-  Map user = {
-    "id": "sdiuhfhsfisudfoise",
-    "username": "denver-code",
-    "avatar": "assets/images/avatar.png",
-    "email": "csigorek@gmail.com",
-    "is_nitro": true,
-  };
+  // Map user = {
+  //   "id": "sdiuhfhsfisudfoise",
+  //   "username": "denver-code",
+  //   "avatar": "assets/images/avatar.png",
+  //   "email": "csigorek@gmail.com",
+  //   "is_nitro": true,
+  // };
 
   void logout() {
     _authManager.logOut();
