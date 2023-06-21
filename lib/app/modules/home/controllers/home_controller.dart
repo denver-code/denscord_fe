@@ -29,6 +29,7 @@ class HomeController extends GetxController with StateController {
             Get.snackbar("Success", "Channel created",
                 colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
           });
+          channels.refresh();
           break;
         case false:
           Get.snackbar("Error", "Something went wrong",
