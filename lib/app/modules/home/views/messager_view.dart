@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:flutter/gestures.dart';
+import 'package:overlapping_panels/overlapping_panels.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:flutter/material.dart';
@@ -30,17 +31,22 @@ class MessagerView extends GetView<HomeController> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
+            padding: const EdgeInsets.only(bottom: 2, left: 15, right: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
                   children: [
-                    const Icon(
-                      Icons.menu_outlined,
-                      color: Colors.white,
-                      size: 25,
+                    //
+                    IconButton(
+                      onPressed: () => OverlappingPanels.of(context)
+                          ?.reveal(RevealSide.left),
+                      icon: const Icon(
+                        Icons.menu_outlined,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                     ),
                     const SizedBox(
                       width: 20,
@@ -58,21 +64,25 @@ class MessagerView extends GetView<HomeController> {
                     )
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.search_outlined,
                       color: Colors.white,
                       size: 25,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
-                    Icon(
-                      Icons.group_outlined,
-                      color: Colors.white,
-                      size: 25,
-                    ),
+                    IconButton(
+                      onPressed: () => OverlappingPanels.of(context)
+                          ?.reveal(RevealSide.right),
+                      icon: const Icon(
+                        Icons.group_outlined,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    )
                   ],
                 )
               ],
