@@ -109,11 +109,11 @@ class HomeController extends GetxController with StateController {
   }
 
   void setActiveChannel(String channelId) {
-    if (channel != null) {
-      channel!.sink.close();
-    }
     if (activeChannel.value.id == channelId) {
       return;
+    }
+    if (channel != null) {
+      channel!.sink.close();
     }
     activeChannel.value =
         channels.firstWhere((channel) => channel.id == channelId);
@@ -136,11 +136,11 @@ class HomeController extends GetxController with StateController {
   }
 
   setActiveGuild(String guildId, {bool needFetchChannels = true}) {
-    if (channel != null) {
-      channel!.sink.close();
-    }
     if (activeGuild.value.id == guildId) {
       return;
+    }
+    if (channel != null) {
+      channel!.sink.close();
     }
     activeGuild.value = guilds.firstWhere((guild) => guild.id == guildId);
     activeGuild.refresh();
