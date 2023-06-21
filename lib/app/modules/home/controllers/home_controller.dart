@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:denscord_fe/app/components/profile_button.dart';
+import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/models/user_model.dart';
 import 'package:denscord_fe/app/modules/home/controllers/message_controller.dart';
@@ -18,21 +19,7 @@ class HomeController extends GetxController
   final APIService _apiService = APIService();
   final AuthenticationManager _authManager = Get.put(AuthenticationManager());
   late String token;
-
-  setActiveGuild(String guildId, {bool needFetchChannels = true}) {
-    if (channel != null) {
-      channel!.sink.close();
-    }
-    if (activeGuild.value.id == guildId) {
-      return;
-    }
-    activeGuild.value = guilds.firstWhere((guild) => guild.id == guildId);
-    activeGuild.refresh();
-    if (needFetchChannels) {
-      fetchChannels();
-    }
-    fetchMembers();
-  }
+  Rx<UserModel> me = UserModel().obs;
 
   fetchMessages() async {
     _apiService
@@ -121,7 +108,29 @@ class HomeController extends GetxController
     });
   }
 
-  Rx<UserModel> me = UserModel().obs;
+  setActiveGuild(String guildId, {bool needFetchChannels = true}) {
+    if (channel != null) {
+      channel!.sink.close();
+    }
+    if (activeGuild.value.id == guildId) {
+      return;
+    }
+    activeGuild.value = guilds.firstWhere((guild) => guild.id == guildId);
+    activeGuild.refresh();
+    if (needFetchChannels) {
+      fetchChannels().then((value) {
+        messages.clear();
+        messages.refresh();
+        if (channels.isNotEmpty) {
+          setActiveChannel(channels.first.id.toString());
+        } else {
+          activeChannel.value = ChannelModel();
+          activeChannel.refresh();
+        }
+      });
+    }
+    fetchMembers();
+  }
 
   @override
   void onInit() async {
