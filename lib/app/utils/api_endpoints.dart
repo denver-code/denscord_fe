@@ -13,4 +13,6 @@ class Endpoints {
       Uri.http(apiUrl, '/api/public/profile/$memberId/');
   static Uri getMessages(String guildId, String channelId) => Uri.http(
       apiUrl, '/api/private/guild/$guildId/channel/$channelId/message/');
+  static Uri getBulkMembersRoute = Uri.http(apiUrl, '/api/public/profile/bulk');
+  static Uri getMyProfileRoute = Uri.http(apiUrl, '/api/private/profile/');
 }

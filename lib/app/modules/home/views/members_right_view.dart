@@ -111,7 +111,7 @@ class MembersView extends GetView<HomeController> {
                                 height: 35,
                                 imageUrl: homeController
                                         .members[index].avatar ??
-                                    "https://cdn.discordapp.com/embed/avatars/0.png",
+                                    "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) =>
                                         CircularProgressIndicator(
