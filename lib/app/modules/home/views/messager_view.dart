@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/theme.dart';
-import 'package:flutter/gestures.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -218,7 +217,6 @@ class MessagerView extends GetView<HomeController> {
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
                             fillColor: DenscordColors.scaffoldForeground,
-                            // const Color.fromARGB(255, 50, 50, 50)
                             filled: true,
                             hintText:
                                 "Message #${controller.activeChannel.value.name}",
@@ -228,14 +226,14 @@ class MessagerView extends GetView<HomeController> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: homeController.sendMessage,
-                  child: const Icon(
+                IconButton(
+                  onPressed: homeController.sendMessage,
+                  icon: const Icon(
                     Icons.send_rounded,
                     color: Colors.white,
                     size: 25,
                   ),
-                )
+                ),
               ],
             ),
           ),

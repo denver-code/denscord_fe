@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
   final TextStyle selectedLabelStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.w500, fontSize: 12);
 
-  RxBool isFooter = false.obs;
+  final RxBool isFooter = false.obs;
 
   buildBottomNavigationMenu(context, landingPageController) {
     return SizedBox(
