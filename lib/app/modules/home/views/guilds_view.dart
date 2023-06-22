@@ -268,23 +268,8 @@ class GuildView extends GetView<HomeController> {
                                                 SnackPosition.BOTTOM);
                                         return;
                                       }
-                                      // need to check if channel name is already taken
-                                      for (final channel
-                                          in homeController.channels) {
-                                        if (channel.name ==
-                                            homeController
-                                                .channelNameController.text) {
-                                          Get.snackbar("Error",
-                                              "Channel name is already taken!",
-                                              colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM);
-                                          return;
-                                        } else {
-                                          homeController.leaveGuild();
-                                        }
-                                      }
                                       homeController.createChannel();
+                                      // }
                                     },
                                   ),
                                 ),
