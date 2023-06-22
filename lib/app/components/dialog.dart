@@ -16,7 +16,7 @@ class MyDialog {
   build() {
     Get.defaultDialog(
       radius: DenscrodSizes.borderRadius,
-      title: "Creating new channel",
+      title: title,
       content: content,
       cancel: SizedBox(
         width: Get.width / 5,

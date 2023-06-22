@@ -51,6 +51,7 @@ class GuildDropdownMenu extends StatelessWidget {
             Future.delayed(
                 const Duration(seconds: 0),
                 () => MyDialog(
+                      title: "Creating new channel",
                       onPressed: () {
                         if (homeController.channelNameController.text.isEmpty) {
                           Get.snackbar("Error", "Channel name can't be empty!",

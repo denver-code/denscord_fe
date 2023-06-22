@@ -18,6 +18,9 @@ mixin StateController {
   TextEditingController messageController = TextEditingController();
   TextEditingController channelNameController = TextEditingController();
   TextEditingController channelDescriptionController = TextEditingController();
+  TextEditingController guildNameController = TextEditingController();
+  TextEditingController guildDescriptionController = TextEditingController();
+  RxBool isPrivate = false.obs;
   RxList<MessageModel> messages = <MessageModel>[].obs;
   ScrollController messagerListController = ScrollController();
   var tabIndex = 0.obs;

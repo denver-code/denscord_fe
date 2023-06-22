@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:denscord_fe/app/components/dialog.dart';
 import 'package:denscord_fe/app/components/guild_fropdown_menu.dart';
+import 'package:denscord_fe/app/components/textfield.dart';
 import 'package:denscord_fe/theme.dart';
 
 import 'package:flutter/material.dart';
@@ -20,45 +22,122 @@ class GuildView extends GetView<HomeController> {
           width: Get.width / 5,
           height: Get.height,
           decoration: BoxDecoration(color: DenscordColors.scaffoldForeground),
-          child: ListView.builder(
-              itemCount: homeController.guilds.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  key: Key(homeController.guilds[index].id ?? index.toString()),
-                  title: CachedNetworkImage(
-                    imageUrl: homeController.guilds[index].avatar ??
-                        "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
-                    imageBuilder: (context, imageProvider) => Container(
-                      width: 80.0,
-                      height: 80.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: homeController.activeGuild.value.id ==
-                                  homeController.guilds[index].id
-                              ? Colors.white
-                              : Colors.transparent,
-                          width: 2.0,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 60,
+              ),
+              Expanded(
+                child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: homeController.guilds.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == homeController.guilds.length) {
+                        return ListTile(
+                          key: Key(index.toString()),
+                          title: SizedBox(
+                            width: 80,
+                            height: 80,
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor:
+                                  DenscordColors.scaffoldBackground,
+                              child: const Icon(Icons.add_rounded),
+                            ),
+                          ),
+                          onTap: () {
+                            Future.delayed(
+                              const Duration(seconds: 0),
+                              () => MyDialog(
+                                content: Column(
+                                  children: [
+                                    MyTextField(
+                                      isEnabled: true,
+                                      controller:
+                                          homeController.guildNameController,
+                                      hintText: "Name of the new guild",
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    MyTextField(
+                                      isEnabled: true,
+                                      controller: homeController
+                                          .guildDescriptionController,
+                                      hintText: "Description of the guild",
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text("Private guild?"),
+                                        Obx(
+                                          () => Checkbox(
+                                            value:
+                                                homeController.isPrivate.value,
+                                            onChanged: (newValue) {
+                                              homeController.isPrivate.toggle();
+                                              homeController.isPrivate
+                                                  .refresh();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                title: "Creating new guild",
+                                onPressed: () {
+                                  homeController.createGuild();
+                                },
+                              ).build(),
+                            );
+                          },
+                        );
+                      }
+                      return ListTile(
+                        key: Key(homeController.guilds[index].id ??
+                            index.toString()),
+                        title: CachedNetworkImage(
+                          imageUrl: homeController.guilds[index].avatar ??
+                              "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 80.0,
+                            height: 80.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: homeController.activeGuild.value.id ==
+                                        homeController.guilds[index].id
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                width: 2.0,
+                              ),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                // fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          // fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                  onTap: () {
-                    homeController.setActiveGuild(
-                        homeController.guilds[index].id.toString());
-                  },
-                );
-              }),
+                        onTap: () {
+                          homeController.setActiveGuild(
+                              homeController.guilds[index].id.toString());
+                        },
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
         SizedBox(
           width: Get.width / 1.5,
