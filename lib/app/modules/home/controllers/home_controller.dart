@@ -10,6 +10,36 @@ import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  createGuild() async {
+    String description = guildDescriptionController.text.isEmpty
+        ? "No description"
+        : guildDescriptionController.text;
+    apiService
+        .createNewGuild(
+      name: guildNameController.text,
+      description: description,
+      isPrivate: isPrivate.value,
+    )
+        .then((value) {
+      guildDescriptionController.clear();
+      guildNameController.clear();
+      switch (value) {
+        case true:
+          Get.back();
+          fetchGuilds().then((value) {
+            Get.snackbar("Success", "Guild created",
+                colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          });
+          guilds.refresh();
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+    });
+  }
+
   createChannel() async {
     String description = channelDescriptionController.text.isEmpty
         ? "No description"

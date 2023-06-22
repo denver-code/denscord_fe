@@ -151,6 +151,30 @@ class APIService extends Endpoints with CacheManager {
     }
   }
 
+  Future<bool> createNewGuild({
+    required String name,
+    required String description,
+    required bool isPrivate,
+  }) async {
+    var request = await http.post(
+      Endpoints.createGuildRoute,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+      body: json.encode({
+        "name": name,
+        "description": description,
+        "is_private": isPrivate,
+      }),
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> leaveGuild({
     required String guildId,
   }) async {
