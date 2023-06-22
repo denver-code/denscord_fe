@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:denscord_fe/app/components/dialog.dart';
+import 'package:denscord_fe/app/components/textfield.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -128,153 +130,56 @@ class GuildView extends GetView<HomeController> {
                               return;
                             }
                             Future.delayed(
-                              const Duration(seconds: 0),
-                              () => Get.defaultDialog(
-                                radius: DenscrodSizes.borderRadius,
-                                title: "Creating new channel",
-                                content: Column(
-                                  children: [
-                                    TextField(
-                                      enabled: homeController
-                                              .activeGuild.value.owner ==
-                                          homeController.me.value.id,
-                                      controller:
-                                          homeController.channelNameController,
-                                      cursorColor: Colors.black,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
+                                const Duration(seconds: 0),
+                                () => MyDialog(
+                                      onPressed: () {
+                                        if (homeController.channelNameController
+                                            .text.isEmpty) {
+                                          Get.snackbar("Error",
+                                              "Channel name can't be empty!",
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                          return;
+                                        }
+                                        if (homeController.channelNameController
+                                                .text.length >
+                                            15) {
+                                          Get.snackbar("Error",
+                                              "Channel name can't be longer than 15 characters!",
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM);
+                                          return;
+                                        }
+                                        homeController.createChannel();
+                                      },
+                                      content: Column(
+                                        children: [
+                                          MyTextField(
+                                            isEnabled: homeController
+                                                    .activeGuild.value.owner ==
+                                                homeController.me.value.id,
+                                            controller: homeController
+                                                .channelNameController,
+                                            hintText:
+                                                "Name of the new best channel ever",
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          MyTextField(
+                                            isEnabled: homeController
+                                                    .activeGuild.value.owner ==
+                                                homeController.me.value.id,
+                                            controller: homeController
+                                                .channelDescriptionController,
+                                            hintText:
+                                                "Description of the channel",
+                                          ),
+                                        ],
                                       ),
-                                      decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(DenscrodSizes
-                                                    .borderRadius)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(DenscrodSizes
-                                                    .borderRadius)),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 10),
-                                          filled: true,
-                                          hintText:
-                                              "Name of the new best channel ever",
-                                          hintStyle: TextStyle(
-                                              color: Colors.grey[500],
-                                              fontSize: 14)),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    TextField(
-                                      enabled: homeController
-                                              .activeGuild.value.owner ==
-                                          homeController.me.value.id,
-                                      controller: homeController
-                                          .channelDescriptionController,
-                                      cursorColor: Colors.black,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
-                                      decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(DenscrodSizes
-                                                    .borderRadius)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(DenscrodSizes
-                                                    .borderRadius)),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 10),
-                                          filled: true,
-                                          hintText:
-                                              "Description of the channel",
-                                          hintStyle: TextStyle(
-                                              color: Colors.grey[500],
-                                              fontSize: 14)),
-                                    )
-                                  ],
-                                ),
-                                cancel: SizedBox(
-                                  width: Get.width / 5,
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      // backgroundColor: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              DenscrodSizes.borderRadius),
-                                          side: const BorderSide(
-                                              color: Colors.black)),
-                                    ),
-                                    child: const Text(
-                                      "Cancel",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                  ),
-                                ),
-                                confirm: SizedBox(
-                                  width: Get.width / 5,
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      backgroundColor: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              DenscrodSizes.borderRadius)),
-                                    ),
-                                    child: const Text(
-                                      "Create",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      if (homeController
-                                          .channelNameController.text.isEmpty) {
-                                        Get.snackbar("Error",
-                                            "Channel name can't be empty!",
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-                                        return;
-                                      }
-                                      if (homeController.channelNameController
-                                              .text.length >
-                                          15) {
-                                        Get.snackbar("Error",
-                                            "Channel name can't be longer than 15 characters!",
-                                            colorText: Colors.white,
-                                            snackPosition:
-                                                SnackPosition.BOTTOM);
-                                        return;
-                                      }
-                                      homeController.createChannel();
-                                      // }
-                                    },
-                                  ),
-                                ),
-                              ),
-                            );
+                                    ).build());
                           },
                           child: const Text(
                             "Add channel",
