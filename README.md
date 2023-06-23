@@ -14,6 +14,8 @@ Denscord is a Discord clone built as a pet project to test my skills and create 
  flutter pub get
 ```
 
+3. Install [Denscord API](https://github.com/denver-code/denscord)
+
 ## Configuration
 1. change `apiUrl` to your server in ``` ./lib/app/utils/api_endpoints.dart```
 
