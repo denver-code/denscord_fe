@@ -2,7 +2,15 @@
 
 Denscord is a Discord clone built as a pet project to test my skills and create a portfolio project. It allows users to create guilds, channels, and send messages in those channels. This README provides instructions on how to install and set up the Denscord client.
 
-## Installation
+## Actual Demo  
+> [Note] Click on image.  
+
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=yRj2ogMNhtw
+" target="_blank"><img src="http://img.youtube.com/vi/yRj2ogMNhtw/0.jpg" 
+alt="yRj2ogMNhtw" width="240" height="180" border="10" /></a>
+
+## Installation  
 
 1. Make sure you have Flutter SDK installed. If not, follow the official Flutter installation guide: [Flutter Installation](https://flutter.dev/docs/get-started/install).
 
