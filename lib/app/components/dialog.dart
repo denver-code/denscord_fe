@@ -6,11 +6,13 @@ class MyDialog {
   final String title;
   final Function()? onPressed;
   final Widget content;
+  final String confirmText;
 
   MyDialog({
     required this.onPressed,
     required this.content,
     this.title = "New Dialog",
+    this.confirmText = "Create",
   });
 
   build() {
@@ -48,9 +50,9 @@ class MyDialog {
                     BorderRadius.circular(DenscrodSizes.borderRadius)),
           ),
           onPressed: onPressed,
-          child: const Text(
-            "Create",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            confirmText,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),

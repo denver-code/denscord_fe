@@ -99,6 +99,14 @@ class GuildDropdownMenu extends StatelessWidget {
           ),
         ),
         PopupMenuItem(
+          enabled: true,
+          onTap: homeController.copyGuildIdToClipboard,
+          child: const Text(
+            "Copy Guild ID",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        PopupMenuItem(
           onTap: () {
             if (homeController.activeGuild.value.owner ==
                 homeController.me.value.id) {

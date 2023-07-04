@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:denscord_fe/app/components/dialog.dart';
-import 'package:denscord_fe/app/components/guild_fropdown_menu.dart';
-import 'package:denscord_fe/app/components/textfield.dart';
+import 'package:denscord_fe/app/components/guild_dropdown_menu.dart';
 import 'package:denscord_fe/theme.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +28,7 @@ class GuildView extends GetView<HomeController> {
               Expanded(
                 child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount: homeController.guilds.length + 1,
+                    itemCount: homeController.guilds.length + 2,
                     itemBuilder: (context, index) {
                       if (index == homeController.guilds.length) {
                         return ListTile(
@@ -42,60 +40,32 @@ class GuildView extends GetView<HomeController> {
                               radius: 30,
                               backgroundColor:
                                   DenscordColors.scaffoldBackground,
-                              child: const Icon(Icons.add_rounded),
+                              child: const Icon(
+                                Icons.add_rounded,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                          onTap: () {
-                            Future.delayed(
-                              const Duration(seconds: 0),
-                              () => MyDialog(
-                                content: Column(
-                                  children: [
-                                    MyTextField(
-                                      isEnabled: true,
-                                      controller:
-                                          homeController.guildNameController,
-                                      hintText: "Name of the new guild",
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    MyTextField(
-                                      isEnabled: true,
-                                      controller: homeController
-                                          .guildDescriptionController,
-                                      hintText: "Description of the guild",
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text("Private guild?"),
-                                        Obx(
-                                          () => Checkbox(
-                                            value:
-                                                homeController.isPrivate.value,
-                                            onChanged: (newValue) {
-                                              homeController.isPrivate.toggle();
-                                              homeController.isPrivate
-                                                  .refresh();
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                title: "Creating new guild",
-                                onPressed: () {
-                                  homeController.createGuild();
-                                },
-                              ).build(),
-                            );
-                          },
+                          onTap: homeController.createGuildHandler,
+                        );
+                      }
+                      if (index == homeController.guilds.length + 1) {
+                        return ListTile(
+                          key: Key(index.toString()),
+                          title: SizedBox(
+                            width: 80,
+                            height: 80,
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor:
+                                  DenscordColors.scaffoldBackground,
+                              child: const Icon(
+                                Icons.connect_without_contact_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          onTap: homeController.joinGuildHandler,
                         );
                       }
                       return ListTile(

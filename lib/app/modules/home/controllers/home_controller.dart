@@ -1,15 +1,38 @@
 import 'dart:convert';
 
+import 'package:denscord_fe/app/components/dialog.dart';
 import 'package:denscord_fe/app/components/profile_button.dart';
+import 'package:denscord_fe/app/components/textfield.dart';
 import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/modules/home/controllers/state_controller.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  joinGuild() async {
+    apiService
+        .joinGuild(
+            guildId: guildIdController.text, guildKey: guildKeyController.text)
+        .then((value) {
+      Get.back();
+      if (value == "Joined") {
+        fetchGuilds().then((value) {
+          Get.snackbar("Success", "Guild joined",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+        });
+      } else {
+        Get.snackbar("Error", value.toString(),
+            colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+      }
+    });
+    guildIdController.clear();
+    guildKeyController.clear();
+  }
+
   createGuild() async {
     String description = guildDescriptionController.text.isEmpty
         ? "No description"
@@ -30,7 +53,7 @@ class HomeController extends GetxController with StateController {
             Get.snackbar("Success", "Guild created",
                 colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
           });
-          guilds.refresh();
+          // guilds.refresh();
           break;
         case false:
           Get.snackbar("Error", "Something went wrong",
@@ -262,5 +285,89 @@ class HomeController extends GetxController with StateController {
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
+  }
+
+  void createGuildHandler() {
+    Future.delayed(
+      const Duration(seconds: 0),
+      () => MyDialog(
+        content: Column(
+          children: [
+            MyTextField(
+              isEnabled: true,
+              controller: guildNameController,
+              hintText: "Name of the new guild",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            MyTextField(
+              isEnabled: true,
+              controller: guildDescriptionController,
+              hintText: "Description of the guild",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Private guild?"),
+                Obx(
+                  () => Checkbox(
+                    value: isPrivate.value,
+                    onChanged: (newValue) {
+                      isPrivate.toggle();
+                      isPrivate.refresh();
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        title: "Creating new guild",
+        onPressed: () {
+          createGuild();
+        },
+      ).build(),
+    );
+  }
+
+  void joinGuildHandler() {
+    Future.delayed(
+      const Duration(seconds: 0),
+      () => MyDialog(
+        content: Column(
+          children: [
+            MyTextField(
+              isEnabled: true,
+              controller: guildIdController,
+              hintText: "Id of the guild",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            MyTextField(
+              isEnabled: true,
+              controller: guildKeyController,
+              hintText: "Key (optional)",
+            ),
+          ],
+        ),
+        title: "Joining new guild",
+        confirmText: "Join",
+        onPressed: () {
+          joinGuild();
+        },
+      ).build(),
+    );
+  }
+
+  void copyGuildIdToClipboard() async {
+    await Clipboard.setData(
+        ClipboardData(text: activeGuild.value.id.toString()));
+    Get.snackbar("Copied", "Guild id copied to clipboard",
+        colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
   }
 }

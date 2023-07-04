@@ -20,4 +20,6 @@ class Endpoints {
   static Uri createGuildRoute = Uri.http(apiUrl, '/api/private/guild/');
   static Uri leaveGuildRoute(String guildId) =>
       Uri.http(apiUrl, '/api/private/guild/$guildId/leave');
+  static Uri joinGuildRoute(String guildId, String guildKey) =>
+      Uri.http(apiUrl, '/api/private/guild/$guildId/join/$guildKey');
 }

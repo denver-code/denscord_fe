@@ -188,4 +188,22 @@ class APIService extends Endpoints with CacheManager {
       return false;
     }
   }
+
+  Future<String> joinGuild({
+    required String guildId,
+    String guildKey = "",
+  }) async {
+    var request = await http.get(
+      Endpoints.joinGuildRoute(guildId, guildKey),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+    );
+    if (request.statusCode == 200) {
+      return "Joined";
+    } else {
+      return json.decode(request.body)["detail"];
+    }
+  }
 }
