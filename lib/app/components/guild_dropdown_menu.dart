@@ -122,6 +122,15 @@ class GuildDropdownMenu extends StatelessWidget {
             style: TextStyle(color: Colors.red[400]),
           ),
         ),
+        PopupMenuItem(
+          enabled: homeController.activeGuild.value.owner ==
+              homeController.me.value.id,
+          onTap: homeController.deleteGuild,
+          child: Text(
+            "Delete Guild",
+            style: TextStyle(color: Colors.red[400]),
+          ),
+        )
       ],
     );
   }

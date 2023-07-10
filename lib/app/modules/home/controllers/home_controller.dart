@@ -13,6 +13,25 @@ import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  deleteGuild() async {
+    apiService
+        .deleteGuild(guildId: activeGuild.value.id.toString())
+        .then((value) {
+      switch (value) {
+        case true:
+          Get.back();
+          Get.snackbar("Success", "Guild deleted",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          fetchGuilds();
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+    });
+  }
+
   joinGuild() async {
     apiService
         .joinGuild(

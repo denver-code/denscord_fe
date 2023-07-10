@@ -206,4 +206,18 @@ class APIService extends Endpoints with CacheManager {
       return json.decode(request.body)["detail"];
     }
   }
+
+  Future<bool> deleteGuild({
+    required String guildId,
+  }) async {
+    var request = await http.delete(
+      Endpoints.deleteGuildRoute(guildId),
+      headers: {"Authorisation": getToken().toString()},
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

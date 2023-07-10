@@ -22,4 +22,6 @@ class Endpoints {
       Uri.http(apiUrl, '/api/private/guild/$guildId/leave');
   static Uri joinGuildRoute(String guildId, String guildKey) =>
       Uri.http(apiUrl, '/api/private/guild/$guildId/join/$guildKey');
+  static Uri deleteGuildRoute(String guildId) =>
+      Uri.http(apiUrl, '/api/private/guild/$guildId');
 }
