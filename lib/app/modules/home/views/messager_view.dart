@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:denscord_fe/app/utils/format_date.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
-import 'package:timeago/timeago.dart' as timeago;
+// import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -124,7 +125,7 @@ class MessagerView extends GetView<HomeController> {
                           ),
                         ),
                         title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 homeController.messages[index].authorUsername
@@ -134,10 +135,13 @@ class MessagerView extends GetView<HomeController> {
                               // const SizedBox(
                               //   width: 10,
                               // ),
+                              const SizedBox(
+                                width: 15,
+                              ),
                               Text(
-                                timeago.format(DateTime.parse(homeController
+                                formatTime(homeController
                                     .messages[index].createdAt
-                                    .toString())),
+                                    .toString()),
                                 style: TextStyle(
                                     color: DenscordColors.textSecondary,
                                     fontSize: 14),
