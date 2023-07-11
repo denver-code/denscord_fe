@@ -56,7 +56,7 @@ class MessagerView extends GetView<HomeController> {
                     ),
                     Obx(
                       () => Text(
-                        "# ${controller.activeChannel.value.name}",
+                        "# ${controller.activeChannel.value.name ?? "invalid"}",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
@@ -322,7 +322,7 @@ class MessagerView extends GetView<HomeController> {
                             fillColor: DenscordColors.scaffoldForeground,
                             filled: true,
                             hintText:
-                                "Message #${controller.activeChannel.value.name}",
+                                "Message #${controller.activeChannel.value.name ?? "invalid"}",
                             hintStyle: TextStyle(
                                 color: Colors.grey[500], fontSize: 14)),
                       ),

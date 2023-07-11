@@ -35,7 +35,7 @@ class MembersView extends GetView<HomeController> {
                   ),
                   Obx(
                     () => Text(
-                      controller.activeChannel.value.name.toString(),
+                      controller.activeChannel.value.name ?? "No Channel",
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -55,7 +55,8 @@ class MembersView extends GetView<HomeController> {
                 alignment: Alignment.centerLeft,
                 child: Obx(
                   () => Text(
-                    controller.activeChannel.value.description.toString(),
+                    controller.activeChannel.value.description ??
+                        "No Description",
                     style: TextStyle(
                         color: DenscordColors.textSecondary,
                         fontSize: 15,
@@ -64,33 +65,61 @@ class MembersView extends GetView<HomeController> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              width: Get.width,
-              height: 1,
-              color: DenscordColors.textSecondary,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "CONTROLL BUTTONS",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15, color: Colors.white),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: Get.width,
-              height: 1,
-              color: DenscordColors.textSecondary,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            //check if owner
+            // Obx(
+            //   () => homeController.activeChannel.value.id != null &&
+            //           homeController.activeGuild.value.owner ==
+            //               homeController.me.value.id
+            //       ? Column(
+            //           children: [
+            //             const SizedBox(
+            //               height: 15,
+            //             ),
+            //             Container(
+            //               width: Get.width,
+            //               height: 1,
+            //               color: DenscordColors.textSecondary,
+            //             ),
+            //             const SizedBox(
+            //               height: 10,
+            //             ),
+            //             Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //               children: [
+            //                 Column(
+            //                   children: [
+            //                     IconButton(
+            //                       onPressed: () {},
+            //                       icon: Icon(
+            //                         Icons.delete_outline_rounded,
+            //                         color: Colors.red[400],
+            //                       ),
+            //                     ),
+            //                     Text(
+            //                       "Delete",
+            //                       textAlign: TextAlign.center,
+            //                       style: TextStyle(
+            //                         color: Colors.red[400],
+            //                       ),
+            //                     )
+            //                   ],
+            //                 )
+            //               ],
+            //             ),
+            //             const SizedBox(
+            //               height: 10,
+            //             ),
+            //             Container(
+            //               width: Get.width,
+            //               height: 1,
+            //               color: DenscordColors.textSecondary,
+            //             ),
+            //           ],
+            //         )
+            //       : const SizedBox(
+            //           height: 10,
+            //         ),
+            // ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
