@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:denscord_fe/app/components/empty_popup.dart';
 import 'package:denscord_fe/app/utils/format_date.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
@@ -107,6 +108,19 @@ class MessagerView extends GetView<HomeController> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         key: Key(homeController.messages[index].id.toString()),
+                        onLongPress: () {
+                          Future.delayed(
+                            const Duration(seconds: 0),
+                            () => EmptyPopup(
+                              title: "Message Info",
+                              content: const Column(
+                                children: [
+                                  Text("Hello"),
+                                ],
+                              ),
+                            ).build(),
+                          );
+                        },
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: CachedNetworkImage(
@@ -182,16 +196,14 @@ class MessagerView extends GetView<HomeController> {
                 const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 5),
             child: Row(
               children: [
-                const Icon(
-                  Icons.file_copy_outlined,
-                  color: Colors.white,
-                  size: 25,
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.file_copy_outlined,
+                    color: Colors.white,
+                    size: 25,
+                  ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                const Icon(Icons.wallet_giftcard_rounded,
-                    color: Colors.white, size: 25),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
