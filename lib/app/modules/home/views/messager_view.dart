@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/app/components/empty_popup.dart';
+import 'package:denscord_fe/app/models/stack_trace_model.dart';
+import 'package:denscord_fe/app/utils/clipboard.dart';
 import 'package:denscord_fe/app/utils/format_date.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
@@ -113,9 +115,94 @@ class MessagerView extends GetView<HomeController> {
                             const Duration(seconds: 0),
                             () => EmptyPopup(
                               title: "Message Info",
-                              content: const Column(
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Hello"),
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          copyToClipboard(homeController
+                                              .messages[index].message
+                                              .toString());
+                                          Get.back();
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Icon(Icons.copy_rounded,
+                                                color: Colors.white,
+                                                size: 23.0),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Copy message text",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10.0),
+                                      GestureDetector(
+                                        onTap: () {
+                                          copyToClipboard(homeController
+                                              .messages[index].id
+                                              .toString());
+                                          Get.back();
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Icon(Icons.copy_rounded,
+                                                color: Colors.white,
+                                                size: 23.0),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Copy message ID",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10.0),
+                                      GestureDetector(
+                                        onTap: () {
+                                          copyToClipboard(
+                                            StackTraceMessageModel(
+                                              messageId: homeController
+                                                  .messages[index].id
+                                                  .toString(),
+                                              guildId: homeController
+                                                  .activeGuild.value.id
+                                                  .toString(),
+                                              channelId: homeController
+                                                  .activeChannel.value.id
+                                                  .toString(),
+                                            ).toJson().toString(),
+                                          );
+                                          Get.back();
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Icon(Icons.copy_rounded,
+                                                color: Colors.white,
+                                                size: 23.0),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              "Copy full stack trace",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ).build(),

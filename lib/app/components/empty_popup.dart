@@ -15,7 +15,12 @@ class EmptyPopup {
     Get.defaultDialog(
       radius: DenscrodSizes.borderRadius,
       title: title,
+      titleStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 17,
+      ),
       content: content,
+      backgroundColor: DenscordColors.scaffoldForeground,
     );
   }
 }
