@@ -201,6 +201,31 @@ class MessagerView extends GetView<HomeController> {
                                           ],
                                         ),
                                       ),
+                                      const SizedBox(height: 10.0),
+                                      GestureDetector(
+                                        onTap: () {
+                                          homeController
+                                              .deleteMessageConfirmationDialog(
+                                                  messageId: homeController
+                                                      .messages[index].id
+                                                      .toString());
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.delete_outline_rounded,
+                                                color: Colors.red[400],
+                                                size: 23.0),
+                                            const SizedBox(width: 10.0),
+                                            Text(
+                                              "Delete message",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.red[400],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   )
                                 ],

@@ -13,6 +13,29 @@ import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  deleteMessage({required String messageId}) async {
+    apiService
+        .deleteMessage(
+            guildId: activeGuild.value.id.toString(),
+            channelId: activeChannel.value.id.toString(),
+            messageId: messageId)
+        .then((value) {
+      switch (value) {
+        case true:
+          Get.back();
+          Get.snackbar("Success", "Message deleted",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          fetchMessages();
+
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+    });
+  }
+
   deleteChannel() async {
     apiService
         .deleteChannel(
@@ -336,6 +359,23 @@ class HomeController extends GetxController with StateController {
         confirmText: "Delete",
         content: const Text(
           "Are you sure that you want to delete this channel?",
+        ),
+      ).build(),
+    );
+  }
+
+  deleteMessageConfirmationDialog({required String messageId}) {
+    Future.delayed(
+      const Duration(seconds: 0),
+      () => MyDialog(
+        onPressed: () {
+          Get.back();
+          deleteMessage(messageId: messageId);
+        },
+        title: "Delete message",
+        confirmText: "Delete",
+        content: const Text(
+          "Are you sure that you want to delete this message?",
         ),
       ).build(),
     );
