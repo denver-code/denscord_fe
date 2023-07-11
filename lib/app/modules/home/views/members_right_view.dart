@@ -38,7 +38,7 @@ class MembersView extends GetView<HomeController> {
                       controller.activeChannel.value.name.toString(),
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontFamily: "FixelDisplay",
                       ),
                     ),
@@ -49,27 +49,45 @@ class MembersView extends GetView<HomeController> {
             const SizedBox(
               height: 10,
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Obx(
+                  () => Text(
+                    controller.activeChannel.value.description.toString(),
+                    style: TextStyle(
+                        color: DenscordColors.textSecondary,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             Container(
               width: Get.width,
               height: 1,
               color: DenscordColors.textSecondary,
             ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // const Text(
-            //   "CONTROLL BUTTONS",
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(fontSize: 15, color: Colors.white),
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // Container(
-            //   width: Get.width,
-            //   height: 1,
-            //   color: DenscordColors.textSecondary,
-            // ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "CONTROLL BUTTONS",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15, color: Colors.white),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: Get.width,
+              height: 1,
+              color: DenscordColors.textSecondary,
+            ),
             const SizedBox(
               height: 10,
             ),
