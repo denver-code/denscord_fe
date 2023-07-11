@@ -66,60 +66,61 @@ class MembersView extends GetView<HomeController> {
               ),
             ),
             //check if owner
-            // Obx(
-            //   () => homeController.activeChannel.value.id != null &&
-            //           homeController.activeGuild.value.owner ==
-            //               homeController.me.value.id
-            //       ? Column(
-            //           children: [
-            //             const SizedBox(
-            //               height: 15,
-            //             ),
-            //             Container(
-            //               width: Get.width,
-            //               height: 1,
-            //               color: DenscordColors.textSecondary,
-            //             ),
-            //             const SizedBox(
-            //               height: 10,
-            //             ),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //               children: [
-            //                 Column(
-            //                   children: [
-            //                     IconButton(
-            //                       onPressed: () {},
-            //                       icon: Icon(
-            //                         Icons.delete_outline_rounded,
-            //                         color: Colors.red[400],
-            //                       ),
-            //                     ),
-            //                     Text(
-            //                       "Delete",
-            //                       textAlign: TextAlign.center,
-            //                       style: TextStyle(
-            //                         color: Colors.red[400],
-            //                       ),
-            //                     )
-            //                   ],
-            //                 )
-            //               ],
-            //             ),
-            //             const SizedBox(
-            //               height: 10,
-            //             ),
-            //             Container(
-            //               width: Get.width,
-            //               height: 1,
-            //               color: DenscordColors.textSecondary,
-            //             ),
-            //           ],
-            //         )
-            //       : const SizedBox(
-            //           height: 10,
-            //         ),
-            // ),
+            Obx(
+              () => homeController.activeChannel.value.id != null &&
+                      homeController.activeGuild.value.owner ==
+                          homeController.me.value.id
+                  ? Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          width: Get.width,
+                          height: 1,
+                          color: DenscordColors.textSecondary,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                IconButton(
+                                  onPressed: homeController
+                                      .deleteChannelConfirmationDialog,
+                                  icon: Icon(
+                                    Icons.delete_outline_rounded,
+                                    color: Colors.red[400],
+                                  ),
+                                ),
+                                Text(
+                                  "Delete",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.red[400],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: Get.width,
+                          height: 1,
+                          color: DenscordColors.textSecondary,
+                        ),
+                      ],
+                    )
+                  : const SizedBox(
+                      height: 10,
+                    ),
+            ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(

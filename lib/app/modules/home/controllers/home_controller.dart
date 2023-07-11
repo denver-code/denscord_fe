@@ -13,6 +13,27 @@ import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  deleteChannel() async {
+    apiService
+        .deleteChannel(
+            guildId: activeGuild.value.id.toString(),
+            channelId: activeChannel.value.id.toString())
+        .then((value) {
+      switch (value) {
+        case true:
+          Get.back();
+          Get.snackbar("Success", "Channel deleted",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          fetchChannels();
+          break;
+        case false:
+          Get.snackbar("Error", "Something went wrong",
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+    });
+  }
+
   deleteGuild() async {
     apiService
         .deleteGuild(guildId: activeGuild.value.id.toString())
@@ -304,6 +325,20 @@ class HomeController extends GetxController with StateController {
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
+  }
+
+  deleteChannelConfirmationDialog() {
+    Future.delayed(
+      const Duration(seconds: 0),
+      () => MyDialog(
+        onPressed: deleteChannel,
+        title: "Delete channel",
+        confirmText: "Delete",
+        content: const Text(
+          "Are you sure that you want to delete this channel?",
+        ),
+      ).build(),
+    );
   }
 
   void createGuildHandler() {
