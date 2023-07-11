@@ -7,8 +7,8 @@ import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/modules/home/controllers/state_controller.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
+import 'package:denscord_fe/app/utils/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -384,9 +384,6 @@ class HomeController extends GetxController with StateController {
   }
 
   void copyGuildIdToClipboard() async {
-    await Clipboard.setData(
-        ClipboardData(text: activeGuild.value.id.toString()));
-    Get.snackbar("Copied", "Guild id copied to clipboard",
-        colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+    copyToClipboard(activeGuild.value.id.toString());
   }
 }
