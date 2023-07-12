@@ -109,7 +109,8 @@ class MessagerView extends GetView<HomeController> {
                     itemCount: homeController.messages.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        key: Key(homeController.messages[index].id.toString()),
+                        key: Key(homeController.messages[index].message!.id
+                            .toString()),
                         onLongPress: () {
                           Future.delayed(
                             const Duration(seconds: 0),
@@ -123,7 +124,7 @@ class MessagerView extends GetView<HomeController> {
                                       GestureDetector(
                                         onTap: () {
                                           copyToClipboard(homeController
-                                              .messages[index].message
+                                              .messages[index].message!.text
                                               .toString());
                                           Get.back();
                                         },
@@ -147,7 +148,7 @@ class MessagerView extends GetView<HomeController> {
                                       GestureDetector(
                                         onTap: () {
                                           copyToClipboard(homeController
-                                              .messages[index].id
+                                              .messages[index].message!.id
                                               .toString());
                                           Get.back();
                                         },
@@ -173,7 +174,7 @@ class MessagerView extends GetView<HomeController> {
                                           copyToClipboard(
                                             StackTraceMessageModel(
                                               messageId: homeController
-                                                  .messages[index].id
+                                                  .messages[index].message!.id
                                                   .toString(),
                                               guildId: homeController
                                                   .activeGuild.value.id
@@ -207,7 +208,9 @@ class MessagerView extends GetView<HomeController> {
                                           homeController
                                               .deleteMessageConfirmationDialog(
                                                   messageId: homeController
-                                                      .messages[index].id
+                                                      .messages[index]
+                                                      .message!
+                                                      .id
                                                       .toString());
                                         },
                                         child: Row(
@@ -240,7 +243,7 @@ class MessagerView extends GetView<HomeController> {
                             width: 35,
                             height: 35,
                             imageUrl: homeController
-                                    .messages[index].authorAvatar ??
+                                    .messages[index].message!.from!.avatar ??
                                 "https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346",
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) =>
@@ -254,7 +257,8 @@ class MessagerView extends GetView<HomeController> {
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                homeController.messages[index].authorUsername
+                                homeController
+                                    .messages[index].message!.from!.username
                                     .toString(),
                                 style: const TextStyle(color: Colors.white),
                               ),
@@ -274,7 +278,8 @@ class MessagerView extends GetView<HomeController> {
                               ),
                             ]),
                         subtitle: Text(
-                          homeController.messages[index].message.toString(),
+                          homeController.messages[index].message!.text
+                              .toString(),
                           maxLines: 500,
                           style: const TextStyle(color: Colors.white),
                         ),
