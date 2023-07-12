@@ -4,6 +4,7 @@ import 'package:denscord_fe/app/models/stack_trace_model.dart';
 import 'package:denscord_fe/app/utils/clipboard.dart';
 import 'package:denscord_fe/app/utils/format_date.dart';
 import 'package:denscord_fe/theme.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
 // import 'package:timeago/timeago.dart' as timeago;
 
@@ -203,32 +204,42 @@ class MessagerView extends GetView<HomeController> {
                                         ),
                                       ),
                                       const SizedBox(height: 10.0),
-                                      GestureDetector(
-                                        onTap: () {
-                                          homeController
-                                              .deleteMessageConfirmationDialog(
-                                                  messageId: homeController
-                                                      .messages[index]
-                                                      .message!
-                                                      .id
-                                                      .toString());
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.delete_outline_rounded,
-                                                color: Colors.red[400],
-                                                size: 23.0),
-                                            const SizedBox(width: 10.0),
-                                            Text(
-                                              "Delete message",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.red[400],
+                                      homeController.me.value.id ==
+                                                  homeController.messages[index]
+                                                      .message!.from!.id ||
+                                              homeController.me.value.id ==
+                                                  homeController
+                                                      .activeGuild.value.owner
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                homeController
+                                                    .deleteMessageConfirmationDialog(
+                                                        messageId:
+                                                            homeController
+                                                                .messages[index]
+                                                                .message!
+                                                                .id
+                                                                .toString());
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                      Icons
+                                                          .delete_outline_rounded,
+                                                      color: Colors.red[400],
+                                                      size: 23.0),
+                                                  const SizedBox(width: 10.0),
+                                                  Text(
+                                                    "Delete message",
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.red[400],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                            )
+                                          : const SizedBox(),
                                     ],
                                   )
                                 ],
