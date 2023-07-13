@@ -271,7 +271,22 @@ class MessagerView extends GetView<HomeController> {
                                 homeController
                                     .messages[index].message!.from!.username
                                     .toString(),
-                                style: const TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: (() {
+                                      if (homeController.messages[index]
+                                              .message!.from!.id ==
+                                          homeController
+                                              .activeGuild.value.owner) {
+                                        return Colors.green[400];
+                                      } else if (homeController.messages[index]
+                                              .message!.from!.id ==
+                                          homeController.me.value.id) {
+                                        return Colors.yellow[400];
+                                      } else {
+                                        return Colors.white;
+                                      }
+                                    }()),
+                                    fontSize: 16),
                               ),
                               // const SizedBox(
                               //   width: 10,
