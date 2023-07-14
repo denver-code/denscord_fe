@@ -30,4 +30,12 @@ class Endpoints {
           String guildId, String channelId, String messageId) =>
       Uri.http(apiUrl,
           '/api/private/guild/$guildId/channel/$channelId/message/$messageId');
+  static Uri sendInviteRequestRoute = Uri.http(apiUrl, '/api/private/social/');
+  static Uri getInvitesRoute = Uri.http(apiUrl, '/api/private/social/');
+  static Uri acceptInviteRoute(String inviteId) =>
+      Uri.http(apiUrl, '/api/private/social/$inviteId/accept');
+  static Uri declineInviteRoute(String inviteId) =>
+      Uri.http(apiUrl, '/api/private/social/$inviteId/decline');
+  static Uri getUserRoute(String query) =>
+      Uri.http(apiUrl, '/api/public/profile/$query');
 }

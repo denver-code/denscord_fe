@@ -1,5 +1,6 @@
 import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/guild_response_model.dart';
+import 'package:denscord_fe/app/models/invite_request_model.dart';
 import 'package:denscord_fe/app/models/member_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/models/user_model.dart';
@@ -14,6 +15,7 @@ mixin StateController {
   RxList<GuildModel> guilds = <GuildModel>[].obs;
   RxList<ChannelModel> channels = <ChannelModel>[].obs;
   RxList<MemberModel> members = <MemberModel>[].obs;
+  RxList<InviteRequestModel> inviteRequests = <InviteRequestModel>[].obs;
   var channel;
   TextEditingController messageController = TextEditingController();
   TextEditingController channelNameController = TextEditingController();
@@ -22,6 +24,7 @@ mixin StateController {
   TextEditingController guildDescriptionController = TextEditingController();
   TextEditingController guildIdController = TextEditingController();
   TextEditingController guildKeyController = TextEditingController();
+  TextEditingController inviteUsernameController = TextEditingController();
   RxBool isPrivate = false.obs;
   RxList<MessageModel> messages = <MessageModel>[].obs;
   ScrollController messagerListController = ScrollController();

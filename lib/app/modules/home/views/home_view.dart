@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:denscord_fe/app/modules/home/views/guilds_view.dart';
 import 'package:denscord_fe/app/modules/home/views/members_right_view.dart';
 import 'package:denscord_fe/app/modules/home/views/messager_view.dart';
+import 'package:denscord_fe/app/modules/home/views/notification_view.dart';
 import 'package:denscord_fe/app/modules/home/views/profile_view.dart';
 import 'package:denscord_fe/theme.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,13 @@ class HomeView extends GetView<HomeController> {
           BottomNavigationBarItem(
             icon: Image.asset("assets/images/obs_dark.png", width: 25.0),
             label: 'Home',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.notifications_none_rounded,
+              size: 30.0,
+            ),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Obx(
@@ -95,6 +103,7 @@ class HomeView extends GetView<HomeController> {
                     }
                   },
                 ),
+                const NotificationsView(),
                 const ProfileView(),
               ],
             )),

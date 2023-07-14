@@ -4,6 +4,7 @@ import 'package:denscord_fe/app/components/dialog.dart';
 import 'package:denscord_fe/app/components/profile_button.dart';
 import 'package:denscord_fe/app/components/textfield.dart';
 import 'package:denscord_fe/app/models/channel_response_model.dart';
+import 'package:denscord_fe/app/models/invite_request_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/modules/home/controllers/state_controller.dart';
 import 'package:denscord_fe/app/utils/api_endpoints.dart';
@@ -13,6 +14,85 @@ import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController with StateController {
+  answerInviteRequest({
+    required bool action,
+    required InviteRequestModel inviteRequest,
+  }) async {
+    switch (action) {
+      case true:
+        apiService
+            .acceptInvite(inviteId: inviteRequest.id.toString())
+            .then((value) {
+          switch (value) {
+            case true:
+              // Get.back();
+              Get.snackbar(
+                  "Success", "Welcome to \"${inviteRequest.guild!.name}\"!",
+                  colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+              getInvites();
+              fetchGuilds();
+              break;
+            case false:
+              Get.snackbar("Error", "Something went wrong",
+                  colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+              break;
+          }
+        });
+        break;
+      case false:
+        apiService
+            .declineInvite(inviteId: inviteRequest.id.toString())
+            .then((value) {
+          switch (value) {
+            case true:
+              // Get.back();
+              getInvites();
+              break;
+            case false:
+              Get.snackbar("Error", "Something went wrong",
+                  colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+              break;
+          }
+        });
+        break;
+    }
+  }
+
+  sendInvite() async {
+    apiService
+        .getIdByUsername(username: inviteUsernameController.text)
+        .then((value) {
+      if (value == null) {
+        Get.snackbar("Error", "User not found",
+            colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+        return;
+      }
+      apiService
+          .sendInvite(
+              guildId: activeGuild.value.id.toString(), recipientId: value)
+          .then((sentValue) {
+        Get.back();
+        if (sentValue == "sent") {
+          Get.snackbar("Success", "Invite sent",
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              duration: const Duration(seconds: 1));
+        } else {
+          Get.snackbar("Error", sentValue,
+              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+        }
+      });
+    });
+    inviteUsernameController.clear();
+  }
+
+  getInvites() async {
+    apiService.getMyInviteRequests().then((value) {
+      inviteRequests.value = value!;
+      inviteRequests.refresh();
+    });
+  }
+
   deleteMessage({required String messageId}) async {
     apiService
         .deleteMessage(
@@ -304,6 +384,7 @@ class HomeController extends GetxController with StateController {
     });
     fetchGuilds();
     fetchChannels();
+    getInvites();
   }
 
   @override

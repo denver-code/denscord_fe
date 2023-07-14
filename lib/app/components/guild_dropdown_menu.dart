@@ -32,12 +32,45 @@ class GuildDropdownMenu extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        const PopupMenuItem(
-          enabled: false,
-          child: Text(
+        PopupMenuItem(
+          child: const Text(
             "Invite",
             style: TextStyle(color: Colors.white),
           ),
+          onTap: () {
+            if (homeController.activeGuild.value.owner !=
+                homeController.me.value.id) {
+              Get.snackbar("Permissions denied!",
+                  "You can't invite members to this guild as you are not owner!",
+                  colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+              return;
+            }
+            Future.delayed(
+                const Duration(seconds: 0),
+                () => MyDialog(
+                      title: "Invite to guild",
+                      confirmText: "Invite",
+                      onPressed: () {
+                        if (homeController
+                            .inviteUsernameController.text.isEmpty) {
+                          Get.snackbar("Error", "Username can't be empty!",
+                              colorText: Colors.white,
+                              snackPosition: SnackPosition.BOTTOM);
+                          return;
+                        }
+                        homeController.sendInvite();
+                      },
+                      content: Column(
+                        children: [
+                          MyTextField(
+                            controller: homeController.inviteUsernameController,
+                            hintText: "Username of the user to invite",
+                            isEnabled: true,
+                          ),
+                        ],
+                      ),
+                    ).build());
+          },
         ),
         PopupMenuItem(
           onTap: () {

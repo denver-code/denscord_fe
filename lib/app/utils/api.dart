@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:denscord_fe/app/models/channel_response_model.dart';
 import 'package:denscord_fe/app/models/guild_response_model.dart';
+import 'package:denscord_fe/app/models/invite_request_model.dart';
 import 'package:denscord_fe/app/models/member_model.dart';
 import 'package:denscord_fe/app/models/message_model.dart';
 import 'package:denscord_fe/app/models/user_model.dart';
@@ -249,6 +250,92 @@ class APIService extends Endpoints with CacheManager {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<String> sendInvite({
+    required String guildId,
+    required String recipientId,
+  }) async {
+    var request = await http.post(
+      Endpoints.sendInviteRequestRoute,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+      body: json.encode({
+        "recipient_id": recipientId,
+        "guild_id": guildId,
+      }),
+    );
+    if (request.statusCode == 200) {
+      return "sent";
+    } else {
+      return json.decode(request.body)["detail"];
+    }
+  }
+
+  Future<bool> acceptInvite({
+    required String inviteId,
+  }) async {
+    var request = await http.get(
+      Endpoints.acceptInviteRoute(inviteId),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> declineInvite({
+    required String inviteId,
+  }) async {
+    var request = await http.get(
+      Endpoints.declineInviteRoute(inviteId),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorisation": getToken().toString(),
+      },
+    );
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<List<InviteRequestModel>?> getMyInviteRequests() async {
+    var request = await http.get(
+      Endpoints.getInvitesRoute,
+      headers: {"Authorisation": getToken().toString()},
+    );
+    if (request.statusCode == 200) {
+      List<InviteRequestModel> inviteRequests = <InviteRequestModel>[];
+      for (var inviteRequest in json.decode(request.body)) {
+        inviteRequests.add(InviteRequestModel.fromJson(inviteRequest));
+      }
+      return inviteRequests;
+    } else {
+      return null;
+    }
+  }
+
+  Future<String?> getIdByUsername({
+    required String username,
+  }) async {
+    var request = await http.get(
+      Endpoints.getUserRoute(username),
+      headers: {"Authorisation": getToken().toString()},
+    );
+    if (request.statusCode == 200) {
+      return json.decode(request.body)["id"];
+    } else {
+      return null;
     }
   }
 }
